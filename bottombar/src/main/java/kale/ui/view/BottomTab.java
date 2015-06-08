@@ -146,10 +146,7 @@ public class BottomTab extends RelativeLayout implements BottomTabImpl {
     public void setChecked(boolean checked) {
         if (mChecked != checked) {
             mChecked = checked;
-
-            //tabBtn.refreshDrawableState();
             tabBtn.setChecked(mChecked);
-            msgTv.refreshDrawableState();
         }
     }
 
