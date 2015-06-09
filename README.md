@@ -5,12 +5,10 @@
 
 ### 机制  
 --  
-
 `BottomTabGroup`完全模仿了RadioGroup的机制，你可以理解为它是`RadioGroup`的增强版本，它内部的view不再仅限于`RadioButton`了，而是实现了`BottomTabImpl`这个接口的的任何view。这样我们可以很容易的用自定义控件来做类似RadioButton的效果了，自然而然就能有更多的扩展性。  
 
 ### 如何使用  
 -- 
-
 在项目中已经有一个`BottomTabImpl`的实现类——`BottomTab`，我们可以利用它来轻松实现底部的tab栏。当然你可以根据需要自定义一个view，实现的方式参考`BottomTab`就可以了。下面我们来看看如何产生如下图所示的布局吧~  
 ![image](./demoPic/demo01.png)   
 1.首先在布局中像放RadioGroup时放一个BottomTabGroup:  
@@ -81,7 +79,6 @@
 
 ### 设置属性    
 --  
-
 如果你用的是包中提供的BottomTab的话，那么你有下面这几个属性可以设置：  
 
 1.通过xml：  
@@ -105,10 +102,62 @@ BottomTab tab04 = (BottomTab) root.getChildAt(3);
 
 ### 扩展    
 --  
-
-前面说到了BottomTab就是一个具体的实现类，我们完全可以用自定义View的方式来做出自己的按钮和红点来，下面推荐两种实现方式，可以按需求来做。
+前面说到了BottomTab就是一个具体的实现类，我们完全可以用自定义View的方式来做出自己的按钮和红点来，下面推荐两种实现方式，可以按需求来做。  
 1.继承BottomTab**（简单）**   
-继承BottomTab这个类，然后复写`getLayoutRes()`这个方法，传入你自定义的一个layout的id，在这个layout中你必须要放入一个id为：tab_hint和tab_btn的两个TextView（或其子类）。这样id为tab_hint的view就可以做红点提示，而id为tab_btn的view就可以做实体的按钮了。  
+继承BottomTab这个类，然后复写`getLayoutRes()`这个方法，传入你自定义的一个layout的id:  
+```JAVA  
+public class TestView extends BottomTab{
+
+
+    public TestView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+    
+    public TestView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
+
+    @Override
+    public int getLayoutRes() {
+        return R.layout.test_main;
+    }
+}  
+```  
+在这个layout中你必须要放入一个id为：tab_hint和tab_btn的两个TextView（或其子类）。这样id为tab_hint的view就可以做红点提示，而id为tab_btn的view就可以做实体的按钮了。需要注意的是BottomTab这个view是继承自RelativeLayout的，所以在做布局的时候需要注意下控件摆放的位置。为了减少布局的层次，你还可以用merge标签。就像下面的写法：  
+```xml  
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+ 
+    <RadioButton
+        android:id="@+id/tab_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:button="@null"
+        android:drawablePadding="1dp"
+        android:gravity="center"
+        android:textSize="11sp"
+        />
+
+    <TextView
+        android:id="@+id/tab_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:layout_toRightOf="@+id/tab_btn"
+        android:layout_marginLeft="-5dp"
+        android:textSize="11sp"
+        android:minHeight="6dp"
+        android:singleLine="true"
+        
+        />
+
+</merge>
+```
+  
 2.实现BottomTabImpl**（扩展性强）**    
 自定义一个view实现BottomTabImpl这个接口，然后请模仿BottomTab的写法进行编写。这样的方式是需要重新编写一些按钮点击事件，但是扩展性是最强的。
 
