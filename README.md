@@ -1,7 +1,7 @@
 # BottomTabBar
 底部tab切换栏。完全模仿了RadioGroup的机制，提供了可以扩展的接口  
 
---  
+
 
 ### 机制  
 --  
@@ -87,7 +87,7 @@
 `android:drawableTop`：设置按钮中的图片    
 
 2.通过java代码：  
-```java    
+```JAVA    
 BottomTab tab01 = (BottomTab) root.getChildAt(0);
         tab01.getHint().setBackgroundResource(R.drawable.red_hint); // 设置提示红点的背景
         tab01.setHint("99+"); // 设置提示红点上的文字
