@@ -14,13 +14,12 @@ repositories {
 	        url "https://jitpack.io"
 	    }
 	}
-	```  
-	```  
+```  
+```  
 	dependencies {
 	        compile 'com.github.tianzhijiexian:BottomTabBar:1.0.1'
 	}
-	```  
-	
+```  
 	
 在项目中已经有一个`BottomTabImpl`的实现类——`BottomTab`，我们可以利用它来轻松实现底部的tab栏。当然你可以根据需要自定义一个view，实现的方式参考`BottomTab`就可以了。下面我们来看看如何产生如下图所示的布局吧~  
 ![image](./demoPic/demo01.png)   
