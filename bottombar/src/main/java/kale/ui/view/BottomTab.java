@@ -28,7 +28,9 @@ public class BottomTab extends RelativeLayout implements BottomTabImpl {
     }
 
     CharSequence tabText;
+
     ColorStateList tabTextColors;
+
     Drawable tabDrawable;
 
     public BottomTab(Context context, AttributeSet attrs, int defStyle) {
@@ -54,36 +56,39 @@ public class BottomTab extends RelativeLayout implements BottomTabImpl {
     private OnCheckedChangeListener mOnCheckedChangeListener;
 
     private void initViews() {
-        inflate(getContext(), R.layout.bottom_tab_main, this);
-        if (!isInEditMode()) {
-            msgTv = (TextView) findViewById(R.id.tab_msg);
-            tabBtn = (RadioButton) findViewById(R.id.tab_btn);
+        inflate(getContext(), getLayoutRes(), this);
+        msgTv = (TextView) findViewById(R.id.tab_hint);
+        tabBtn = (RadioButton) findViewById(R.id.tab_btn);
 
-            tabBtn.setCompoundDrawablesWithIntrinsicBounds(null, tabDrawable, null, null);
-            tabBtn.setText(tabText);
-            if (tabTextColors != null) {
-                tabBtn.setTextColor(tabTextColors);
-            }
-
-            tabBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    mChecked = isChecked;
-                    msgTv.refreshDrawableState();
-                    mOnCheckedChangeWidgetListener.onCheckedChanged(BottomTab.this, isChecked);
-                    if (mOnCheckedChangeListener != null) {
-                        mOnCheckedChangeListener.onCheckedChanged(BottomTab.this, isChecked);
-                    }
-                }
-            });
+        tabBtn.setCompoundDrawablesWithIntrinsicBounds(null, tabDrawable, null, null);
+        tabBtn.setText(tabText);
+        if (tabTextColors != null) {
+            tabBtn.setTextColor(tabTextColors);
         }
+
+        tabBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mChecked = isChecked;
+                msgTv.refreshDrawableState();
+                mOnCheckedChangeWidgetListener.onCheckedChanged(BottomTab.this, isChecked);
+                if (mOnCheckedChangeListener != null) {
+                    mOnCheckedChangeListener.onCheckedChanged(BottomTab.this, isChecked);
+                }
+            }
+        });
     }
 
-    public TextView getTabBtn() {
+    
+    public int getLayoutRes() {
+        return R.layout.bottom_tab_main;
+    }
+
+    public TextView getTabButton() {
         return tabBtn;
     }
 
-    public TextView getMsgTv() {
+    public TextView getHint() {
         return msgTv;
     }
 
@@ -107,12 +112,12 @@ public class BottomTab extends RelativeLayout implements BottomTabImpl {
         return this;
     }
 
-    public BottomTab setMsgText(String msg) {
+    public BottomTab setHint(String msg) {
         msgTv.setText(msg);
         return this;
     }
 
-    public BottomTab setMsgText(int msg) {
+    public BottomTab setHint(int msg) {
         msgTv.setText(String.valueOf(msg));
         return this;
     }
