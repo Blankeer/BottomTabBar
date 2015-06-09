@@ -4,9 +4,13 @@
 --  
 
 ### 机制  
+--  
+
 `BottomTabGroup`完全模仿了RadioGroup的机制，你可以理解为它是`RadioGroup`的增强版本，它内部的view不再仅限于`RadioButton`了，而是实现了`BottomTabImpl`这个接口的的任何view。这样我们可以很容易的用自定义控件来做类似RadioButton的效果了，自然而然就能有更多的扩展性。  
 
 ### 如何使用  
+-- 
+
 在项目中已经有一个`BottomTabImpl`的实现类——`BottomTab`，我们可以利用它来轻松实现底部的tab栏。当然你可以根据需要自定义一个view，实现的方式参考`BottomTab`就可以了。下面我们来看看如何产生如下图所示的布局吧~  
 ![image](./demoPic/demo01.png)   
 1.首先在布局中像放RadioGroup时放一个BottomTabGroup:  
@@ -75,14 +79,18 @@
 ![image](./demoPic/demo02.png)   
 
 
-### 设置属性  
+### 设置属性    
+--  
+
 如果你用的是包中提供的BottomTab的话，那么你有下面这几个属性可以设置：  
+
 1.通过xml：  
-android:text：设置按钮下方的文字  
-android:textColor：设置按钮的颜色  
-android:drawableTop：设置按钮中的图片    
+`android:text`：设置按钮下方的文字  
+`android:textColor`：设置按钮的颜色  
+`android:drawableTop`：设置按钮中的图片    
+
 2.通过java代码：  
-```java  
+```java    
 BottomTab tab01 = (BottomTab) root.getChildAt(0);
         tab01.getHint().setBackgroundResource(R.drawable.red_hint); // 设置提示红点的背景
         tab01.setHint("99+"); // 设置提示红点上的文字
@@ -95,7 +103,9 @@ BottomTab tab04 = (BottomTab) root.getChildAt(3);
 ```    
 其中`getHint()`就是得到的textView这个对象，所以想怎么设置就怎么设置。`getTabButton()`得到的是按钮主体的对象（内部是一个RadioButton），对外是一个TextView。  
 
-### 扩展  
+### 扩展    
+--  
+
 前面说到了BottomTab就是一个具体的实现类，我们完全可以用自定义View的方式来做出自己的按钮和红点来，下面推荐两种实现方式，可以按需求来做。
 1.继承BottomTab**（简单）**   
 继承BottomTab这个类，然后复写`getLayoutRes()`这个方法，传入你自定义的一个layout的id，在这个layout中你必须要放入一个id为：tab_hint和tab_btn的两个TextView（或其子类）。这样id为tab_hint的view就可以做红点提示，而id为tab_btn的view就可以做实体的按钮了。  
