@@ -2,13 +2,26 @@
 底部tab切换栏。完全模仿了RadioGroup的机制，提供了可以扩展的接口  
 
 
-
 ### 机制  
 --
 `BottomTabGroup`完全模仿了RadioGroup的机制，你可以理解为它是`RadioGroup`的增强版本，它内部的view不再仅限于`RadioButton`了，而是实现了`BottomTabImpl`这个接口的的任何view。这样我们可以很容易的用自定义控件来做类似RadioButton的效果了，自然而然就能有更多的扩展性。  
 
 ### 如何使用  
--- 
+--   
+```
+repositories {
+	    maven {
+	        url "https://jitpack.io"
+	    }
+	}
+	```  
+	```  
+	dependencies {
+	        compile 'com.github.tianzhijiexian:BottomTabBar:1.0.1'
+	}
+	```  
+	
+	
 在项目中已经有一个`BottomTabImpl`的实现类——`BottomTab`，我们可以利用它来轻松实现底部的tab栏。当然你可以根据需要自定义一个view，实现的方式参考`BottomTab`就可以了。下面我们来看看如何产生如下图所示的布局吧~  
 ![image](./demoPic/demo01.png)   
 1.首先在布局中像放RadioGroup时放一个BottomTabGroup:  
