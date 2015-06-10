@@ -123,7 +123,7 @@ public class TestView extends BottomTab{
     }
 }  
 ```  
-在这个layout中你必须要放入一个id为：tab_hint和tab_btn的两个TextView（或其子类）。这样id为tab_hint的view就可以做红点提示，而id为tab_btn的view就可以做实体的按钮了。需要注意的是BottomTab这个view是继承自RelativeLayout的，所以在做布局的时候需要注意下控件摆放的位置。为了减少布局的层次，你还可以用merge标签。就像下面的写法：  
+在这个layout中你必须要放入一个id为：tab_btn和tab_hint的两个View，其中一个是RadioButton，一个是TextView。这样id为tab_hint的TextView就可以做红点提示，而id为tab_btn的RadioButton就可以做实体的按钮了。需要注意的是BottomTab这个view是继承自RelativeLayout的，所以在做布局的时候需要注意下控件摆放的位置。为了减少布局的层次，你还可以用merge标签。就像下面的写法：  
 ```xml  
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
