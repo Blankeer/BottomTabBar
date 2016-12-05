@@ -2,6 +2,7 @@ package kale.ui.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,6 +94,12 @@ public class BottomTabGroup extends LinearLayout {
         super.addView(child, index, params);
     }
 
+    public void checkByPosition(int position) {
+        if (position < 0 || position > getChildCount()) {
+            return;
+        }
+        check(getChildAt(position).getId());
+    }
 
     public void check(int id) {
         // don't even bother
@@ -110,14 +117,29 @@ public class BottomTabGroup extends LinearLayout {
 
         setCheckedId(id);
     }
-    
+
+    public int getCheckedPosition() {
+        int position = 0;
+        for (int i = 0; i < getChildCount(); i++) {
+            View v = getChildAt(i);
+            if (v.getId() == mCheckedId) {
+                position = i;
+                break;
+            }
+        }
+        return position;
+    }
+
     private void setCheckedId(int id) {
+        if (mCheckedId == id) {
+            return;
+        }
         mCheckedId = id;
         if (mOnCheckedChangeListener != null) {
-            mOnCheckedChangeListener.onCheckedChanged(this, mCheckedId);
+            mOnCheckedChangeListener.onCheckedChanged(this, mCheckedId, getCheckedPosition());
         }
     }
-    
+
     private void setCheckedStateForView(int viewId, boolean checked) {
         View checkedView = findViewById(viewId);
         if (checkedView != null && checkedView instanceof BottomTabImpl) {
@@ -143,7 +165,7 @@ public class BottomTabGroup extends LinearLayout {
     public void setOnCheckedChangeListener(OnCheckedChangeListener listener) {
         mOnCheckedChangeListener = listener;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -164,7 +186,7 @@ public class BottomTabGroup extends LinearLayout {
     protected LinearLayout.LayoutParams generateDefaultLayoutParams() {
         return new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     }
-    
+
     public static class LayoutParams extends LinearLayout.LayoutParams {
         /**
          * {@inheritDoc}
@@ -207,13 +229,13 @@ public class BottomTabGroup extends LinearLayout {
          * height to  {@link android.view.ViewGroup.LayoutParams#WRAP_CONTENT}
          * when not specified in the XML file.</p>
          *
-         * @param a the styled attributes set
-         * @param widthAttr the width attribute to fetch
+         * @param a          the styled attributes set
+         * @param widthAttr  the width attribute to fetch
          * @param heightAttr the height attribute to fetch
          */
         @Override
         protected void setBaseAttributes(TypedArray a,
-                int widthAttr, int heightAttr) {
+                                         int widthAttr, int heightAttr) {
 
             if (a.hasValue(widthAttr)) {
                 width = a.getLayoutDimension(widthAttr, "layout_width");
@@ -228,15 +250,15 @@ public class BottomTabGroup extends LinearLayout {
             }
         }
     }
-    
-   
+
+
     /**
      * <p>Interface definition for a callback to be invoked when the checked
      * subView changed in this root view.</p>
      */
     public interface OnCheckedChangeListener {
 
-        public void onCheckedChanged(BottomTabGroup root, int checkedId);
+        public void onCheckedChanged(BottomTabGroup root, int checkedId, int position);
     }
 
     private class CheckedStateTracker implements BottomTabImpl.OnCheckedChangeListener {
@@ -276,8 +298,10 @@ public class BottomTabGroup extends LinearLayout {
                 int id = child.getId();
                 // generates an id if it's missing
                 if (id == View.NO_ID) {
-                    id = View.generateViewId();
-                    child.setId(id);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                        id = View.generateViewId();
+                        child.setId(id);
+                    }
                 }
                 ((BottomTabImpl) child).setOnCheckedChangeWidgetListener(
                         mChildOnCheckedChangeListener);
